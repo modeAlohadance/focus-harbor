@@ -30,6 +30,15 @@ class Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             timer.reset(0)
 
+    def test_pause_at_deadline_still_completes(self):
+        now = [0]
+        timer = Countdown(10, lambda: now[0])
+        timer.start()
+        now[0] = 10
+        timer.pause()
+        self.assertTrue(timer.finish())
+        self.assertFalse(timer.finish())
+
     def test_persistence_stats_and_safe_csv(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'db'

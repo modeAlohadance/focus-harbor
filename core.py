@@ -16,6 +16,7 @@ class Countdown:
         self.duration = float(seconds)
         self.left = float(seconds)
         self.deadline = None
+        self.completed = False
 
     @property
     def running(self):
@@ -33,8 +34,9 @@ class Countdown:
         self.deadline = None
 
     def finish(self):
-        if self.running and self.remaining() == 0:
+        if not self.completed and self.remaining() == 0:
             self.pause()
+            self.completed = True
             return True
         return False
 
